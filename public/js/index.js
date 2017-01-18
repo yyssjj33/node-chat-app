@@ -1,4 +1,9 @@
 var socket = io();
+function scrollToButtom() {
+  var messages = $('#messages');
+  var scrollHeight = messages.prop('scrollHeight');
+  messages.scrollTop(scrollHeight);
+}
 socket.on('connect', () => {
   console.log('connected to server');
 });
@@ -17,6 +22,7 @@ socket.on('newMessage', (message) => {
     createdAt: formattedTime
   });
   $('#messages').append(html);
+  scrollToButtom();
 });
 
 socket.on('newLocationMessage', (message) => {
@@ -29,13 +35,13 @@ socket.on('newLocationMessage', (message) => {
     createdAt: formattedTime
   });
   $('#messages').append(html);
+  scrollToButtom();
 });
-  
   
 $('#message-form').on('submit', e => e.preventDefault());
 $('#send-message').on('click', (e) => {
   var input = $('[name=message]');
-  if (input.val().trim().length === 0) return alert('Message cannot be empty');
+  if (input.val().trim().length === 0) return ;
   socket.emit('createMessage', {
     from: 'User',
     text: input.val()
@@ -57,7 +63,9 @@ locationButton.on('click', (e) => {
       lng: position.coords.longitude
     })
     locationButton.removeAttr('disabled').text('Send location');
-  }, () => {
+  }, (e) => {
+    locationButton.removeAttr('disabled').text('Send location');
+    console.log('e', e);
     return alert('Unable to fetch location');
   })
 })
