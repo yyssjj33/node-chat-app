@@ -4,4 +4,4 @@
 -------------
 from course "the-complete-nodejs-developer-course-2".
 
-[title](https://node-chat-app-jy.herokuapp.com/)
+[node-chat-app](https://node-chat-app-jy.herokuapp.com/)
