@@ -5,7 +5,7 @@ const http = require('http');
 
 const {generateMessage, generateLocationMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation');
-const {Users} = require('./utils/Users');
+const {Users} = require('./utils/users');
 const publicPath = path.join(__dirname, '../public');
 const PORT = process.env.PORT || 3000;
 
