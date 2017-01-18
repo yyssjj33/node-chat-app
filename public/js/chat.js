@@ -1,4 +1,5 @@
 var socket = io();
+var params = $.deparam(window.location.search);
 function scrollToButtom() {
   var messages = $('#messages');
   var scrollHeight = messages.prop('scrollHeight');
@@ -6,11 +7,31 @@ function scrollToButtom() {
 }
 socket.on('connect', () => {
   console.log('connected to server');
+  socket.emit('join', params, (err) => {
+    if (err) {
+      alert(err);
+      window.location.href = '/';
+    } else {
+      console.log('No Err');
+    }
+  });
 });
 
 socket.on('disconnect', () => {
   console.log('disconnected from server');
 });
+
+socket.on('updateUserList', (usersInfo) => {
+  var users = usersInfo.userList;
+  var room = usersInfo.room;
+  console.log('Users List:', users, room);
+  var ol = $('<ol></ol>');
+  users.forEach(user => {
+    ol.append($('<li></li>').text(user));
+  })
+  $('#room-name').text(room);
+  $('#users').html(ol);
+})
 
 socket.on('newMessage', (message) => {
   console.log('got new message:', message);
@@ -43,7 +64,6 @@ $('#send-message').on('click', (e) => {
   var input = $('[name=message]');
   if (input.val().trim().length === 0) return ;
   socket.emit('createMessage', {
-    from: 'User',
     text: input.val()
   }, (data) => {
     console.log('Got it', data);
@@ -57,7 +77,9 @@ locationButton.on('click', (e) => {
     return alert('Geolocation not supported by your browser');
   }
   locationButton.attr('disabled', 'disabled').text('Sending ...');
+
   navigator.geolocation.getCurrentPosition((position) => {
+
     socket.emit('createLocationMessage', {
       lat: position.coords.latitude,
       lng: position.coords.longitude

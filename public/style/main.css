@@ -16,6 +16,11 @@ h3 {
   text-align: center;
   font-size: 1.5rem;
 }
+h2 {
+  font-weight: 800;
+  text-align: center;
+  font-size: 2rem;
+}
 
 button {
   border: none;
@@ -95,9 +100,15 @@ button:disabled {
   background: linear-gradient(325deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* w3c */
 }
 
-.chat__sidebar h3 {
+.chat__sidebar h3{
+  color: #ccc;
+  margin: 20px 0 0 10px;
+  text-align: left;
+}
+
+.chat__sidebar h2{
   color: #e6eaee;
-  margin: 10px 20px;
+  margin: 20px 0 0 10px;
   text-align: left;
 }
 
